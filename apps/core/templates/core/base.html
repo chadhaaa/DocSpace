@@ -6,15 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DocSpace </title>
     <!-- Styles !-->
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
     <link rel="stylesheet" href="{% static 'css/main.css' %}"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@2/css/all.min.css" />
 </head>
 <body>
 
     <!-- Nav -->
     <nav class="navbar" is-info role="navigation">
         <div class="navbar-brand">
-            <img src="https://bulma.io/images/bulma-logo.png" width="45" alt="" class="d-inline-block align-middle mr-2">
+            <img src="{% static 'features/logo2.png' %}" width="45" alt="" class="d-inline-block align-middle mr-2">
             <a href="/" class="navbar-item"><strong>DocSpace</strong></a>
             <a class="navbar-burger burger">
                 <span aria-hidden="true"> </span>

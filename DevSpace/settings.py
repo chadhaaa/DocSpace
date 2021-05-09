@@ -44,7 +44,11 @@ INSTALLED_APPS = [
     'apps.core', 
     'apps.userProfile', 
     'apps.feed', 
+
+
 ]
+
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -4,6 +4,7 @@ from django.urls import path
 from apps.core.views import frontpage, signup
 from django.contrib.auth import views 
 from apps.feed.views import feed 
+from apps.feed.api import api_tweet
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,4 +14,6 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(template_name = 'core/login.html'), name='login'), 
 
     path('feed/', feed, name = 'feed'), 
+    
+    path('api/add_tweet/', api_tweet, name = 'api_tweet'), 
 ]

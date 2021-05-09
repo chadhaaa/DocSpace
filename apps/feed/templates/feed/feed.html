@@ -8,7 +8,7 @@
                     <form v-on:submit.prevent = "submitTweet()">
                         <div class="field">
                             <div class="control">
-                                <textarea class="textarea" v-model="body" placeholder="What's on your programming mind?"></textarea>
+                                <textarea class="textarea" v-model="body" placeholder="What's on your mind?"></textarea>
                             </div>
                         </div>
                         <div class="field">
@@ -19,6 +19,23 @@
                     </form>
                 </div>
                 <div class="wraper-tweets">
+                    {% for tweet in tweets %}
+
+                    <div class="tweet">
+                        <p class="name">
+                            {{tweet.created_by.username}}
+                        </p>
+
+                        <p> 
+                            {{tweet.body}}
+                        </p>
+
+                        <p class="info">
+                            {{tweet.created_at}}
+                        </p>
+                    </div>
+
+                    {% endfor %}
                     <div class="tweet" v-for = "tweet in tweets">
                         <p class="name"> [[tweet.twee]] </p>
                         <p>[[ tweet.body ]]</p>
@@ -53,6 +70,23 @@
                         'created_at': this.created_at
                     };
                     this.tweets.unshift(tweet); 
+
+                    fetch('api/add_tweet/', {
+                        method : 'POST', 
+                        headers : {
+                            'Content-Type': 'application/json', 
+                            'X-CSRFToken': '{{ csrf_token }}' 
+                        },
+                        credentials : 'same-origin', 
+                        body: JSON.stringify(tweet)
+
+                    })
+                    .then((response) => {
+                        console.log(response); 
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
                 }
                 this.body = ''; 
             }
