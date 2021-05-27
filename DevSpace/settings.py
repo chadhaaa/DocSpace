@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.humanize', 
     'django.contrib.staticfiles',
     'apps.core', 
     'apps.userProfile', 
     'apps.feed', 
+    'apps.conversation', 
 
 
 ]
@@ -132,3 +134,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

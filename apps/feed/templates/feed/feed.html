@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load humanize%}
 
 {% block content %}
     <div class="container" id="feedapp">
@@ -18,33 +19,64 @@
                         </div>
                     </form>
                 </div>
-                <div class="wraper-tweets">
-                    {% for tweet in tweets %}
+                <div class="card">
+                    <div class="card-content">
+                      <div class="content">
+                        <div class="tweet" v-for = "tweet in tweets">
+                            <article class="media">
+                                <figure class="media-left">
+                                    <p class="image is-64x64">
+                                            <img :src="tweet.avatar">
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p> 
+                                            <strong> [[tweet.twee]]  </strong>
+                                            <small> [[tweet.created_at]] </small>
+                                            <br>
+                                             [[tweet.body]]
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
 
-                    <div class="tweet">
-                        <p class="name">
-                            {{tweet.created_by.username}}
-                        </p>
+                        {% for tweet in tweets %}
+                            <div class="tweet">
+                                <article class="media">
+                                    <figure class="media-left">
+                                        <p class="image is-64x64">
+                                            {% if tweet.created_by.userprofile.avatar %}
+                                                <img src="{{ tweet.created_by.userprofile.avatar.url }}">
+                                            {% endif %}
+                                        </p>
+                                    </figure>
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p> 
+                                                <strong><a href="{% url 'userprofile' tweet.created_by.username %}"> {{tweet.created_by.username }} </a></strong>
+                                                <small> {{ tweet.created_at|naturaltime }} </small>
+                                                <br>
+                                                {{ tweet.body }}
+                                                <br>
+                                                <a @click="likeTweet({{ tweet.id }})" v-if="!liked_tweets.includes({{ tweet.id }})"> Like </a>
+                                                <span v-if="liked_tweets.includes({{ tweet.id }})"> Liked </span>
+                                                <small id="likes- {{ tweet.id }}"> {{ tweet.likes.count }} likes </small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
 
-                        <p> 
-                            {{tweet.body}}
-                        </p>
-
-                        <p class="info">
-                            {{tweet.created_at}}
-                        </p>
-                    </div>
-
-                    {% endfor %}
-                    <div class="tweet" v-for = "tweet in tweets">
-                        <p class="name"> [[tweet.twee]] </p>
-                        <p>[[ tweet.body ]]</p>
-                        <p class="info"> [[tweet.created_at]] </p>
+                            {% endfor %}
+                            
+                            </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 {% endblock %}
 
 {% block script %}
@@ -52,32 +84,65 @@
     new Vue({
         el: '#feedapp',
         delimiters: ['[[', ']]'],
-        data() {
+        data () {
             return{
                 tweets: [], 
                 body: '',
                 twee: '{{request.user.username}}', 
                 created_at: 'Now',
+                avatar: '{% if request.user.userprofile.avatar %}{{ request.user.userprofile.avatar.url }}{% endif %}', 
+                liked_tweets: '{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }},{% endif %}{% endfor %}'
             }
                 
-        },
-        methods: {
-            submitTweet(){
+        }, 
+        methods:{
+            likeTweet(tweet_id) {
+                this.liked_tweets.push(parseInt(tweet_id)); 
+
+                var tweet = {
+                    'tweet_id': tweet_id
+                }; 
+
+                fetch('/api/add_likee/', {
+                    method: 'POST', 
+                    headers: {
+                        'Content-Type': 'application/json', 
+                        'X-CSRFToken': '{{ csrf_token }}' 
+                    },
+                    credentials: 'same-origin', 
+                    body: JSON.stringify(tweet)
+
+                })
+                .then((response) => {
+                    console.log(response); 
+                })
+                .catch((error) => {
+                    console.log(error);
+                }); 
+
+                const el = document.getElementById('likes-' + tweet_id ); 
+                const likes = parseInt(el.innerHTML.split(' ')[0] + 1); 
+                el.innerHTML = likes + ' likes'; 
+            },
+
+            submitTweet() {
+                //console.log('submitTweet');
                 if (this.body.length > 0 ){
                     var tweet = {
                         'body': this.body,
                         'twee': this.twee,
-                        'created_at': this.created_at
+                        'created_at': this.created_at,
+                        'avatar': this.avatar
                     };
                     this.tweets.unshift(tweet); 
 
-                    fetch('api/add_tweet/', {
-                        method : 'POST', 
-                        headers : {
+                    fetch('/api/add_tweett/', {
+                        method: 'POST', 
+                        headers: {
                             'Content-Type': 'application/json', 
                             'X-CSRFToken': '{{ csrf_token }}' 
                         },
-                        credentials : 'same-origin', 
+                        credentials: 'same-origin', 
                         body: JSON.stringify(tweet)
 
                     })
@@ -86,12 +151,13 @@
                     })
                     .catch((error) => {
                         console.log(error);
-                    })
+                    }); 
                 }
                 this.body = ''; 
             }
         }
 
     })
+    
 </script>
 {% endblock %}
