@@ -1,7 +1,11 @@
 import json 
+import re
 
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required 
+from django.contrib.auth.models import User
+
+from apps.notification.utilities import create_notification
 
 from .models import tweet, Like 
 
@@ -11,6 +15,15 @@ def api_tweet(request):
     body = data['body']
 
     Tweet = tweet.objects.create(body=body, created_by = request.user) 
+    results = re.findall("(^[[^@\w])@(\w{1,20})", body)
+
+    for result in results: 
+        result = result[1]
+
+        print (result)
+
+        if User.objects.filter(username = result).exists() and result != request.user.username: 
+            create_notification(request, User.objects.get(username = result), 'mention')
 
     return JsonResponse({'success': True})
 
@@ -21,5 +34,7 @@ def api_like(request):
 
     if not Like.objects.filter(tweet_id = tweet_id).filter(created_by = request.user).exists():
         like = Like.objects.create(tweet_id = tweet_id, created_by = request.user)
+        tweeet = tweet.objects.get(pk = tweet_id)
+        create_notification(request, tweeet.created_by, 'like')
 
     return JsonResponse({'success': True})

@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User 
 from django.contrib.auth.decorators import login_required
 
+from apps.notification.utilities import create_notification
+
 from .forms import userProfileForm
 
 # Create your views here.
@@ -50,6 +52,7 @@ def follow_tweet(request, username):
     user = get_object_or_404(User, username = username)
 
     request.user.userprofile.follows.add(user.userprofile)
+    create_notification(request, user, 'follower')
 
     return redirect(userprofile, username=username)
 

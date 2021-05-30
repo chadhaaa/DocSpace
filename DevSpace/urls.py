@@ -10,6 +10,7 @@ from apps.feed.api import api_tweet, api_like
 from apps.userProfile.views import userprofile, follow_tweet, unfollow_tweet, followers, follows, edit_profile
 from apps.conversation.views import conversations, conversation
 from apps.conversation.api import api_add_message
+from apps.notification.views import notifications
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,6 +21,7 @@ urlpatterns = [
 
     path('feed/', feed, name = 'feed'), 
     path('search/', search, name = 'search'),
+    
     path('edit_profile/', edit_profile, name = 'edit_profile'), 
     path('u/<str:username>/', userprofile, name='userprofile'), 
     path('u/<str:username>/follow', follow_tweet, name='follow_tweet'), 
@@ -33,5 +35,6 @@ urlpatterns = [
 
     path('conversations/', conversations, name = 'conversations'),
     path('conversations/<int:user_id>/', conversation, name = 'conversation'),
+    path('notifications/', notifications, name = 'notifications'), 
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
