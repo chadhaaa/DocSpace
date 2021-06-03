@@ -54,7 +54,7 @@ def follow_tweet(request, username):
     request.user.userprofile.follows.add(user.userprofile)
     create_notification(request, user, 'follower')
 
-    return redirect(userprofile, username=username)
+    return redirect('userprofile', username=username)
 
 @login_required
 def unfollow_tweet(request, username): 
@@ -62,7 +62,7 @@ def unfollow_tweet(request, username):
 
     request.user.userprofile.follows.remove(user.userprofile)
 
-    return redirect(userprofile, username=username)
+    return redirect('userprofile', username=username)
 
 def followers(request, username):
     user = get_object_or_404(User, username=username)

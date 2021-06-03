@@ -1,5 +1,5 @@
 {% extends 'core/base.html' %}
-{% load humanize%}
+{% load humanize %}
 
 {% block content %}
     <div class="container" id="feedapp">
@@ -32,10 +32,10 @@
                                 <div class="media-content">
                                     <div class="content">
                                         <p> 
-                                            <strong> [[tweet.twee]]  </strong>
-                                            <small> [[tweet.created_at]] </small>
+                                            <strong> [[ tweet.twee ]]  </strong>
+                                            <small> [[ tweet.created_at ]] </small>
                                             <br>
-                                             [[tweet.body]]
+                                             [[ tweet.body ]]
                                         </p>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                                 <br>
                                                 <a @click="likeTweet({{ tweet.id }})" v-if="!liked_tweets.includes({{ tweet.id }})"> Like </a>
                                                 <span v-if="liked_tweets.includes({{ tweet.id }})"> Liked </span>
-                                                <small id="likes- {{ tweet.id }}"> {{ tweet.likes.count }} likes </small>
+                                                <small id="likes-{{ tweet.id }}"> {{ tweet.likes.count }} likes </small>
                                             </p>
                                         </div>
                                     </div>
@@ -88,10 +88,10 @@
             return{
                 tweets: [], 
                 body: '',
-                twee: '{{request.user.username}}', 
+                twee: '{{ request.user.username }}', 
                 created_at: 'Now',
                 avatar: '{% if request.user.userprofile.avatar %}{{ request.user.userprofile.avatar.url }}{% endif %}', 
-                liked_tweets: '{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }},{% endif %}{% endfor %}'
+                liked_tweets: [{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }},{% endif %}{% endfor %}]
             }
                 
         }, 
@@ -126,7 +126,7 @@
             },
 
             submitTweet() {
-                //console.log('submitTweet');
+                console.log('submitTweet');
                 if (this.body.length > 0 ){
                     var tweet = {
                         'body': this.body,

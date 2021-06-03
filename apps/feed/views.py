@@ -9,7 +9,7 @@ from .models import tweet
 def feed(request):
     userids = [request.user.id]
 
-    for twee in request.user.userProfile.follows.all(): 
+    for twee in request.user.userprofile.follows.all(): 
         userids.append(twee.user.id)
 
     tweets = tweet.objects.filter(created_by_id__in = userids)

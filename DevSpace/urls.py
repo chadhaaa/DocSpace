@@ -31,7 +31,7 @@ urlpatterns = [
     
     path('api/add_tweett/', api_tweet, name = 'api_tweet'), 
     path('api/add_likee/', api_like, name = 'api_like'), 
-    path('api/api_add_message/', api_add_message, name = 'api_add_message'), 
+    path('api/add_messagee/', api_add_message, name = 'api_add_message'), 
 
     path('conversations/', conversations, name = 'conversations'),
     path('conversations/<int:user_id>/', conversation, name = 'conversation'),

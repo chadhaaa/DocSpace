@@ -15,7 +15,7 @@ def api_tweet(request):
     body = data['body']
 
     Tweet = tweet.objects.create(body=body, created_by = request.user) 
-    results = re.findall("(^[[^@\w])@(\w{1,20})", body)
+    results = re.findall("(^|[^@\w])@(\w{1,20})", body)
 
     for result in results: 
         result = result[1]

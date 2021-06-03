@@ -54,7 +54,7 @@
 													<br>
 													<a @click="likeTweet({{ tweet.id }})" v-if="!liked_tweets.includes({{ tweet.id }})"> Like </a>
 													<span v-if="liked_tweets.includes({{ tweet.id }})"> Liked </span>
-													<small id="likes- {{ tweet.id }}"> {{ tweet.likes.count }} likes </small>
+													<small id="likes-{{ tweet.id }}"> {{ tweet.likes.count }} likes </small>
 												</p>
 											</div>
 										</div>
@@ -74,7 +74,7 @@
         delimiters: ['[[', ']]'],
         data () {
             return{
-                liked_tweets: '{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }},{% endif %}{% endfor %}'
+                liked_tweets: [{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }},{% endif %}{% endfor %}]
             }
                 
         }, 

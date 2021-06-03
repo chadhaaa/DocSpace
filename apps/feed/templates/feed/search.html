@@ -49,23 +49,23 @@
                             </strong>
 
                             <div class="wrapper-tweets">
-                                {% for tweet in twe %}
+                                {% for tweeet in twe %}
                                 <div class="tweet">
                                     <article class="media">
                                         <figure class="media-left">
                                             <p class="image is-64x64">
-                                                {% if tweet.created_by.userprofile.avatar %}
-                                                    <img src="{{ tweet.created_by.userprofile.avatar.url }}">
+                                                {% if tweeet.created_by.userprofile.avatar %}
+                                                    <img src="{{ tweeet.created_by.userprofile.avatar.url }}">
                                                 {% endif %}
                                             </p>
                                         </figure>
                                         <div class="media-content">
                                             <div class="content">
                                                 <p> 
-                                                    <strong><a href="{% url 'userprofile' tweet.created_by.username %}"> {{tweet.created_by.username }} </a></strong>
-                                                    <small> {{ tweet.created_at}} </small>
+                                                    <strong><a href="{% url 'userprofile' tweeet.created_by.username %}"> {{tweet.created_by.username }} </a></strong>
+                                                    <small> {{ tweeet.created_at|naturaltime}} </small>
                                                     <br>
-                                                    {{ tweet.body }}
+                                                    {{ tweeet.body }}
                                                 </p>
                                             </div>
                                         </div>
