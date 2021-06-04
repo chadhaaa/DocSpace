@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'apps.conversation', 
     'apps.notification', 
 
-
 ]
 
 # CRISPY_TEMPLATE_PACK = 'bootstrap4'

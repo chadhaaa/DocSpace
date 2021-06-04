@@ -6,7 +6,7 @@
 	<div class="container" id="userprofileapp">
 		<div class="columns">
 			<div class="column is-12"> 
-				<h1 class="title">{{ user.username }} </h1>
+				<h1 class="subtitle is-1">{{ user.username }} </h1>
 				{% if user.userprofile.avatar %}
 				<figure class="image is-128x128">
 					<img src="{{ user.userprofile.avatar.url }}">
@@ -14,10 +14,10 @@
 			{% endif %}
 				
 				<hr> 
-
-                <p> <a href="{% url 'followers' user.username %}"> Followers: {{ user.userprofile.followed_by.count }} </a></p>
-                <p> <a href="{% url 'follows' user.username %}"> Follows: {{ user.userprofile.follows.count }}</a> </p>
-
+				<nav class="level">
+					<p class="heading"> <a class="title" href="{% url 'followers' user.username %}"> Followers: {{ user.userprofile.followed_by.count }} </a></p>
+					<p class="heading"> <a class="title" href="{% url 'follows' user.username %}"> Follows: {{ user.userprofile.follows.count }}</a> </p>
+				</nav>
 				{% if user != request.user %}
 					<a href="{% url 'conversation' user.id %}" class="button is-info"> Send a message ! </a>
 					{% if request.user.userprofile in user.userprofile.followed_by.all %}
@@ -35,23 +35,22 @@
 				<div class="column is-8">
 					<div class="wrapper-tweets">
 						{% for tweet in tweets %}
-							<div class ="tweet">
-									<article class="media">
-										<figure class="media-left">
-											<p class="image is-64x64">
-												{% if user.userprofile.avatar %}
-													<img src="{{ user.userprofile.avatar.url }}">
-												{% endif %}
-											</p>
-										</figure>
-										<div class="media-content">
-											<div class="content">
-												<p> 
-													<strong> {{tweet.created_by.username }} </strong>
-													<small> {{ tweet.created_at }} </small>
-													<br>
-													{{ tweet.body }}
-													<br>
+							<div class ="box">
+								<article class="media">
+									<div class="media-left">
+									  <figure class="image is-64x64">
+										  {% if tweet.created_by.userprofile.avatar %}
+											<img src="{{ tweet.created_by.userprofile.avatar.url }}">
+										  {% endif %}
+									  </figure>
+									</div>
+									<div class="media-content">
+									  <div class="content">
+										<p>
+										  <strong><a href="{% url 'userprofile' tweet.created_by.username %}"> {{tweet.created_by.username }} </a></strong> <small>{{ tweet.created_at|naturaltime }}</small>
+										  <br>
+										  {{ tweet.body }}
+										</p>
 													<a @click="likeTweet({{ tweet.id }})" v-if="!liked_tweets.includes({{ tweet.id }})"> Like </a>
 													<span v-if="liked_tweets.includes({{ tweet.id }})"> Liked </span>
 													<small id="likes-{{ tweet.id }}"> {{ tweet.likes.count }} likes </small>
