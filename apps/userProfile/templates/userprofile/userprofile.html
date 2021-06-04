@@ -6,17 +6,17 @@
 	<div class="container" id="userprofileapp">
 		<div class="columns">
 			<div class="column is-12"> 
-				<h1 class="subtitle is-1">{{ user.username }} </h1>
-				{% if user.userprofile.avatar %}
-				<figure class="image is-128x128">
-					<img src="{{ user.userprofile.avatar.url }}">
-				</figure>
+					<h1 class="has-text-link is-size-1">{{ user.username }} </h1>
+					{% if user.userprofile.avatar %}
+					<figure class="image is-128x128">
+						<img src="{{ user.userprofile.avatar.url }}">
+					</figure>
 			{% endif %}
 				
 				<hr> 
 				<nav class="level">
-					<p class="heading"> <a class="title" href="{% url 'followers' user.username %}"> Followers: {{ user.userprofile.followed_by.count }} </a></p>
-					<p class="heading"> <a class="title" href="{% url 'follows' user.username %}"> Follows: {{ user.userprofile.follows.count }}</a> </p>
+					<p class="heading"> <a class="has-text-primary is-size-3" href="{% url 'followers' user.username %}"> Followers: {{ user.userprofile.followed_by.count }} </a></p>
+					<p class="heading"> <a class="has-text-primary is-size-3" href="{% url 'follows' user.username %}"> Follows: {{ user.userprofile.follows.count }}</a> </p>
 				</nav>
 				{% if user != request.user %}
 					<a href="{% url 'conversation' user.id %}" class="button is-info"> Send a message ! </a>
