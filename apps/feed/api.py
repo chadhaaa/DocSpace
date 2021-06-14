@@ -7,14 +7,14 @@ from django.contrib.auth.models import User
 
 from apps.notification.utilities import create_notification
 
-from .models import tweet, Like 
+from .models import Tweet, Like 
 
 @login_required
 def api_tweet(request):
     data = json.loads(request.body)
     body = data['body']
 
-    Tweet = tweet.objects.create(body=body, created_by = request.user) 
+    tweet = Tweet.objects.create(body=body, created_by = request.user) 
     results = re.findall("(^|[^@\w])@(\w{1,20})", body)
 
     for result in results: 
@@ -34,7 +34,7 @@ def api_like(request):
 
     if not Like.objects.filter(tweet_id = tweet_id).filter(created_by = request.user).exists():
         like = Like.objects.create(tweet_id = tweet_id, created_by = request.user)
-        tweeet = tweet.objects.get(pk = tweet_id)
+        tweeet = Tweet.objects.get(pk = tweet_id)
         create_notification(request, tweeet.created_by, 'like')
 
     return JsonResponse({'success': True})
