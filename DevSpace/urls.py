@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from apps.core.views import frontpage, signup
 from django.contrib.auth import views 
-from apps.feed.views import feed, search 
+from apps.feed.views import feed, search, searchbytweetbody
 from apps.feed.api import api_tweet, api_like
 from apps.userProfile.views import userprofile, follow_tweet, unfollow_tweet, followers, follows, edit_profile
 from apps.conversation.views import conversations, conversation
@@ -21,6 +21,7 @@ urlpatterns = [
 
     path('feed/', feed, name = 'feed'), 
     path('search/', search, name = 'search'),
+    path('searchtweet/<str:body>', searchbytweetbody,name = 'searchbody'),
     
     path('edit_profile/', edit_profile, name = 'edit_profile'), 
     path('u/<str:username>/', userprofile, name='userprofile'), 
@@ -31,7 +32,7 @@ urlpatterns = [
     
     path('api/add_tweett/', api_tweet, name = 'api_tweet'), 
     path('api/add_likee/', api_like, name = 'api_like'), 
-    path('api/add_messagee/', api_add_message, name = 'api_add_message'), 
+    path('api/add_message/', api_add_message, name = 'api_add_message'), 
 
     path('conversations/', conversations, name = 'conversations'),
     path('conversations/<int:user_id>/', conversation, name = 'conversation'),

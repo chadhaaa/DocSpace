@@ -44,3 +44,12 @@ def search(request):
     }
 
     return render(request, 'feed/search.html', context)
+
+def searchbytweetbody(request):
+		tweet = request.GET.get['tweet']
+		if tweet is None :
+			tweets = []
+		else:
+			tweets= Tweet.objects.filter(body = tweet)
+		
+		return render(request,'feed/search.html',tweets)

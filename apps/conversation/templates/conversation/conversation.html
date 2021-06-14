@@ -46,7 +46,7 @@
                             <div class="media-content">
                                 <div class="content">
                                     <p>
-                                        <strong> [[ message.twee ]]</strong> <small> [[ message.created_at ]] </small>
+                                        <strong> [[ message.tweet ]]</strong> <small> [[ message.created_at ]] </small>
                                         <br>
                                         [[ message.content ]]
                                     </p>
@@ -84,7 +84,7 @@
             return {
                 messages : [],
                 content : '', 
-                twee : '{{ request.user.username }}',
+                tweet : '{{ request.user.username }}',
                 created_at : 'Now', 
                 avatar : '{% if request.user.userprofile.avatar %}{{ request.user.userprofile.avatar.url }}{% endif %}'
             }
@@ -95,7 +95,7 @@
                 if (this.content.length > 0) {
                     var message = {
                         'content' : this.content,
-                        'twee' : this.twee, 
+                        'tweet' : this.tweet, 
                         'created_at' : this.created_at,
                         'avatar' : this.avatar,
                         'conversation_id' : '{{ conversation.id }}'
@@ -103,7 +103,7 @@
                     
                     this.messages.unshift(message); 
 
-                    fetch('api/add_messagee/', {
+                    fetch('/api/add_message/', {
                         method : 'POST',
                         headers : {
                             'Content-Type' : 'application/json',
