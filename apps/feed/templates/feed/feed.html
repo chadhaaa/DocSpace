@@ -91,7 +91,7 @@
                 twee: '{{ request.user.username }}', 
                 created_at: 'Now',
                 avatar: '{% if request.user.userprofile.avatar %}{{ request.user.userprofile.avatar.url }}{% endif %}', 
-                liked_tweets: [{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }},{% endif %}{% endfor %}]
+                liked_tweets: [{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }}{% endif %}{% endfor %}]
             }
                 
         }, 

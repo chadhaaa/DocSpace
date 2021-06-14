@@ -16,7 +16,7 @@
     <!-- Nav -->
     <nav class="navbar" is-info role="navigation">
         <div class="navbar-brand">
-            <img src="{% static 'features/logo2.png' %}" width="45" alt="" class="d-inline-block align-middle mr-2">
+            <img src="{% static 'features/Layer.png' %}" width="45" alt="" class="d-inline-block align-middle mr-2">
             <a href="/" class="navbar-item"><strong>DocSpace</strong></a>
             <a class="navbar-burger burger">
                 <span aria-hidden="true"> </span>
@@ -45,7 +45,6 @@
                     <a href="{% url 'feed' %}" class="navbar-item">FEED</a>
                     <a href="{% url 'conversations' %}" class="navbar-item">Conversations</a>
                     <a href="{% url 'userprofile' request.user.username %}" class="navbar-item"> Profile </a>
-                    <a href="{% url 'edit_profile' %}" class="navbar-item"> Edit Profile </a> 
                 {% endif %}
                 <div class="navbar-item">
                     <div class="buttons">

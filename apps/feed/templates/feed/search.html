@@ -7,9 +7,9 @@
     <div class="container">
         <div class="columns">
             <div class="column is-12">
-                <h1 class="title">Search</h1>
+                <h1 class="has-text-primary is-size-3">Search</h1>
 
-                <p>Search term: "{{ query }}"</p>
+                <p class="has-text-warning is-size-5">Search term: "{{ query }}"</p>
 
                 <hr>
 
@@ -29,49 +29,74 @@
 
                 <hr>
 
-                <div class="search-results">
-                        {% if not tweets and not twe %}
-                            <p> Nothing was found ! Please try another name or term ! </p>
-                        {% endif %}
+                <div class="card">
+                    <div class="card-content">
+                        <div class="content">
+                            {% if not tweets and not twe %}
+                                <p> Nothing was found ! Please try another name or term ! </p>
+                            {% endif %}
 
-                        {% if tweets %}
-                            <strong>
-                                Doctors 
-                            </strong>
-                            {% for twee in tweets %}
-                                <p><a href="{% url 'userprofile' twee.username %}">  {{ twee.username }}</a></p>
-                            {% endfor %}
-                        {% endif %}
-
-                        {% if twe %}
-                            <strong> 
-                                No Doctors ! 
-                            </strong>
-
-                            <div class="wrapper-tweets">
-                                {% for tweeet in twe %}
-                                <div class="tweet">
-                                    <article class="media">
-                                        <figure class="media-left">
-                                            <p class="image is-64x64">
-                                                {% if tweeet.created_by.userprofile.avatar %}
-                                                    <img src="{{ tweeet.created_by.userprofile.avatar.url }}">
-                                                {% endif %}
-                                            </p>
-                                        </figure>
-                                        <div class="media-content">
-                                            <div class="content">
-                                                <p> 
-                                                    <strong><a href="{% url 'userprofile' tweeet.created_by.username %}"> {{tweet.created_by.username }} </a></strong>
-                                                    <small> {{ tweeet.created_at|naturaltime}} </small>
-                                                    <br>
-                                                    {{ tweeet.body }}
-                                                </p>
+                            {% if tweets %}
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <strong>
+                                                Doctors 
+                                            </strong>
+                                            {% for twee in tweets %}
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <div class="content">
+                                                        <p><a href="{% url 'userprofile' twee.username %}">  {{ twee.username }}</a></p>
                                             </div>
-                                        </div>
-                                    </article>
+                                                </div>
+                                                    </div>
+                                            {% endfor %}
                                 </div>
-                                {% endfor %}
+                                    </div>
+                                        </div>
+                            {% endif %}
+                    </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="content">
+                            {% if twe %}
+                                <strong> 
+                                    People You Know ! 
+                                </strong>
+
+                                <div class="card">
+                                    <div class="card-content">
+                                        <div class="content">
+                                            {% for tweeet in twe %}
+                                            <div class="tweet">
+                                                <article class="media">
+                                                    <figure class="media-left">
+                                                        <p class="image is-64x64">
+                                                            {% if tweeet.created_by.userprofile.avatar %}
+                                                                <img src="{{ tweeet.created_by.userprofile.avatar.url }}">
+                                                            {% endif %}
+                                                        </p>
+                                                    </figure>
+                                                    <div class="media-content">
+                                                        <div class="content">
+                                                            <p> 
+                                                                <strong><a href="{% url 'userprofile' tweeet.created_by.username %}"> {{tweet.created_by.username }} </a></strong>
+                                                                <small> {{ tweeet.created_at|naturaltime}} </small>
+                                                                <br>
+                                                                {{ tweeet.body }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                            {% endfor %}
+                                </div>
+                                    </div>
+                                        </div>
+                                </div>
+                                    </div>
                             </div>
                         {% endif %}
                   
